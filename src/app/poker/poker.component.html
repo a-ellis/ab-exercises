@@ -1,0 +1,63 @@
+<ab-layout>
+
+  <div class="rank-container">
+
+    <!-- Leveraging the AsyncPipe in templates to automatically manage subscriptions to Observables -->
+    <div *ngIf="pokerForm.valid && (rank$ | async) as rank" class="rank" [@transitionInOut]="'in'">
+      <h2>{{ rank.message }}</h2>
+    </div>
+
+    <div class="hand">
+
+      <ng-container *ngIf="(hand$ | async) as hand; else intro">
+        <ab-poker-card *ngFor="let card of hand" [card]="card" [@transitionInOut]="'in'"></ab-poker-card>
+      </ng-container>
+
+    </div>
+
+    <ng-template #intro>
+      <div class="intro" [@fadeInOut]="'in'">
+        <div>
+          <h1>Enter a Poker hand below to learn its Rank</h1>
+
+          <p>The format for input is 5 cards, separated by spaces, using the card's Rank and Suite.</p>
+
+          <mat-divider></mat-divider>
+          <br>
+
+          <p><strong>Ranks:</strong> 2 - 10, J, Q, K, A (case insensitive)</p>
+          <p><strong>Suites:</strong> C, D, H, S (case insensitive)</p>
+          <p><small><strong>Example: </strong> "2s ac as js 10h"</small></p>
+        </div>
+      </div>
+    </ng-template>
+
+  </div>
+
+  <form [formGroup]="pokerForm" (ngSubmit)="evaluateHand()">
+    <mat-form-field>
+      <input matInput
+        type="text"
+        placeholder="What's in your hand?"
+        autocomplete="off"
+        maxlength="18"
+        formControlName="pokerHand"
+        (input)="handIsChanging()">
+
+      <mat-error *ngIf="pokerForm.controls.pokerHand.errors?.required">
+        This field is required
+      </mat-error>
+
+      <mat-error *ngIf="pokerForm.controls.pokerHand.errors?.pokerHandFormat">
+        Poker hand format is invalid
+      </mat-error>
+
+    </mat-form-field>
+
+    <button mat-fab color="accent" [disabled]="pokerForm.invalid || throttleSubmit" type="submit">
+      <i class="material-icons">check</i>
+    </button>
+
+  </form>
+
+</ab-layout>

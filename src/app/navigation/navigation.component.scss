@@ -1,0 +1,15 @@
+@import '../../scss/color-palette.scss';
+@import '~@angular/material/theming';
+
+:host {
+  display: flex;
+  height: 3.75rem;
+  align-items: center;
+  padding: 0 1rem;
+  background-color: mat-color($ab-primary-dark, 400);
+
+  .title {
+    margin: 0;
+    color: mat-color($ab-primary-dark, 50);
+  }
+}
