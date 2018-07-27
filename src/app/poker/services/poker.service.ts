@@ -34,8 +34,8 @@ export class PokerService {
   // Parse string representation of cards into a Hand
   private parseCards(cardStr: string): Card[] {
     const parsedCards: Card[] = cardStr.split(' ').map((str: string) => {
-      const rankKey = str.slice(0, str.length - 1);
-      const suiteKey = str.slice(-1);
+      const rankKey = str.slice(0, str.length - 1).toLowerCase();
+      const suiteKey = str.slice(-1).toLowerCase();
       return { rank: cardRankObj[rankKey], suite: CardSuiteObj[suiteKey] };
     });
 

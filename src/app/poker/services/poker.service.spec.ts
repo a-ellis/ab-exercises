@@ -32,6 +32,20 @@ describe('PokerService', () => {
     expect(service['parseCards'](validHandString)).toEqual(expectedOutput);
   });
 
+  it('should allow case insensitive card parsing', () => {
+    // Ranks and Suites are toLowerCase()'ed to correctly map to enum representation
+    validHandString = 'As 2d 3C 6s 7h';
+    const expectedOutput: Card[] = [
+      { rank: 12, suite: 3 },
+      { rank: 0, suite: 1 },
+      { rank: 1, suite: 0 },
+      { rank: 4, suite: 3 },
+      { rank: 5, suite: 2 }
+    ];
+
+    expect(service['parseCards'](validHandString)).toEqual(expectedOutput);
+  });
+
   it('should provide a method for determining if a Hand is a Flush', () => {
     const handIsFlush: Hand = [
       { rank: 0, suite: 3 },

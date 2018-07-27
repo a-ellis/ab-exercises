@@ -60,4 +60,15 @@ describe('Poker Ranking App', () => {
     expect(page.inputElem.getAttribute('class')).toContain('ng-invalid');
     expect(page.submitBtnElem.getAttribute('disabled')).toBeTruthy();
   });
+
+  it('should allow valid input to be case insensitive', () => {
+    const validInput = '2C ah 10D 7s 2s';
+    page.inputElem.sendKeys(validInput);
+    page.submitBtnElem.click();
+
+    browser.sleep(400);
+
+    expect(page.cardElems.count()).toBe(5);
+    expect(page.rankText.getText()).toBe('Pair of Twos');
+  });
 });
